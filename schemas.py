@@ -1,9 +1,10 @@
-from pydantic import BaseModel
-import json
+from sqlmodel import SQLModel, Field
+from typing import List
 
-class RecipeInput(BaseModel):
+
+class RecipeInput(SQLModel):
     title: str
-    ingredients: list
+    ingredients: List[str] 
     method: str
     rating: float | None = None
     img: str
@@ -11,24 +12,36 @@ class RecipeInput(BaseModel):
 
     class Config:
         schema_extra = {
-            "example":{
-                 "title": "the best recipe",
-                 "ingredients": "yummi ingredients",
-                 "method": "the finest method",
-                 "rating": 5,
-                 "img" : "www.thebestrecipe.com",
-                 "vegetarian": True
+            "example": {
+                "title": "Best Chocolate Cake",
+                "ingredients": "flour, sugar, cocoa powder, eggs, milk",
+                "method": "Mix all ingredients and bake at 180°C for 30 minutes.",
+                "rating": 4.8,
+                "img": "https://example.com/cake.jpg",
+                "vegetarian": True
             }
         }
 
-class RecipeOutput(RecipeInput):
-    id:int
 
+class Recipe(RecipeInput, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    ingredients: str = Field(sa_column_kwargs={"nullable": False})
+    
+    @property
+    def ingredients_list(self) -> List[str]:
+        """Convert the comma-separated string back to a list."""
+        return self.ingredients.split(", ")
 
-def load_db()-> list[RecipeOutput]:
-    with open('recipes.json') as f:
-        return [RecipeOutput.parse_obj(obj) for obj in json.load(f)]
+    @ingredients_list.setter
+    def ingredients_list(self, value: List[str]):
+        """Convert a list to a comma-separated string for storage."""
+        self.ingredients = ", ".join(value)
 
-def save_db(recipes: list[RecipeOutput]):
-    with open("recipes.json", 'w') as f:
-        json.dump([recipe.dict() for recipe in recipes], f, indent=4)
+class RecipeOutput(SQLModel):
+    id: int
+    title: str
+    ingredients: List[str]  # Output as a list for consistency
+    method: str
+    rating: float | None
+    img: str
+    vegetarian: bool
