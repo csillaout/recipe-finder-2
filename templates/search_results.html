@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Recipe Finder: Search Results</title>
+  </head>
+  <body>
+    <h1>Search Results</h1>
+    {% if recipes %}
+    <p>We found the following recipes for you:</p>
+    <ul>
+      {% for recipe in recipes %}
+      <li>
+        <strong>{{ recipe.title }}</strong><br />
+        Ingredients: {{ recipe.ingredients | join(", ") }}<br />
+        Method: {{ recipe.method }}<br />
+        Rating: {{ recipe.rating }}<br />
+        Vegetarian: {{ "Yes" if recipe.vegetarian else "No" }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>No recipes found matching your criteria.</p>
+    {% endif %}
+  </body>
+</html>

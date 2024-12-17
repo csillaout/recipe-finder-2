@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Recipe Finder</title>
+  </head>
+  <body>
+    <h1>Welcome to the Recipe Finder App</h1>
+    <p>Search for recipes based on your preferences:</p>
+
+    <!-- Combined Search Form -->
+    <form action="/search" method="post">
+      <table>
+        <!-- Ingredients Search -->
+        <tr>
+          <td><label for="ingredients">Ingredients:</label></td>
+          <td>
+            <input
+              required
+              type="text"
+              name="ingredients"
+              id="ingredients"
+              placeholder="e.g., coconut"
+            />
+          </td>
+        </tr>
+
+        <!-- Rating Search -->
+        <tr>
+          <td><label for="rating">Minimum Rating:</label></td>
+          <td>
+            <input
+              required
+              type="number"
+              step="0.1"
+              name="rating"
+              id="rating"
+              placeholder="e.g., 4.5"
+            />
+          </td>
+        </tr>
+
+        <!-- Vegetarian Search -->
+        <tr>
+          <td><label for="vegetarian">Vegetarian:</label></td>
+          <td>
+            <select name="vegetarian" id="vegetarian" required>
+              <option value="">Any</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Search Button -->
+      <button type="submit">Search</button>
+    </form>
+
+    <hr />
+
+    <!-- Individual Search Forms -->
+    <h2>Quick Search Options</h2>
+
+    <!-- Search by Ingredients -->
+    <form method="post" action="/ingresearch">
+      <label for="quick-ingredients">Search by Ingredients:</label>
+      <input
+        type="text"
+        name="ingredients"
+        id="quick-ingredients"
+        placeholder="e.g., coconut"
+        required
+      />
+      <button type="submit">Search</button>
+    </form>
+
+    <!-- Search by Rating -->
+    <form method="post" action="/ratesearch">
+      <label for="quick-rating">Search by Minimum Rating:</label>
+      <input
+        type="number"
+        step="0.1"
+        name="rating"
+        id="quick-rating"
+        placeholder="e.g., 4.5"
+        required
+      />
+      <button type="submit">Search</button>
+    </form>
+
+    <!-- Search by Vegetarian Option -->
+    <form method="post" action="/vegsearch">
+      <label for="quick-vegetarian">Vegetarian (yes/no):</label>
+      <select name="vegetarian" id="quick-vegetarian" required>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+      <button type="submit">Search</button>
+    </form>
+  </body>
+</html>
